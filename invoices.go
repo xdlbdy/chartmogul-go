@@ -19,6 +19,8 @@ const (
 	invoicesEndpoint          = "invoices"
 	singleInvoiceEndpoint     = "invoices/:uuid"
 	customersInvoicesEndpoint = "import/customers/:customerUUID/invoices"
+	lineItemEndpoint          = "import/invoices/:invoiceUUID/line_items"
+	singleLineItemEndpoint    = "line_items/:uuid"
 )
 
 // Invoices is wrapper for bulk importing invoices
@@ -155,4 +157,17 @@ func (api API) RetrieveInvoice(invoiceUUID string, params ...*RetrieveInvoicePar
 // See https://dev.chartmogul.com/v1.0/reference#invoices
 func (api API) DeleteInvoice(invoiceUUID string) error {
 	return api.delete(singleInvoiceEndpoint, invoiceUUID)
+}
+
+// CreateLineItem Creates a line item for a specified invoice.
+func (api API) CreateLineItem(lineItem *LineItem, invoiceUUID string) (*LineItem, error) {
+	result := &LineItem{}
+	path := strings.Replace(lineItemEndpoint, ":invoiceUUID", invoiceUUID, 1)
+	return result, api.create(path, lineItem, result)
+}
+
+// UpdateLineItem Updates an invoice line item identified by its UUID.
+func (api API) UpdateLineItem(lineItem *LineItem, lineItemUUID string) (*LineItem, error) {
+	result := &LineItem{}
+	return result, api.update(singleLineItemEndpoint, lineItemUUID, lineItem, result)
 }
