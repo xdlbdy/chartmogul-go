@@ -2,7 +2,10 @@ package chartmogul
 
 import "strings"
 
-const transactionsEndpoint = "import/invoices/:invoiceUUID/transactions"
+const (
+	transactionsEndpoint      = "import/invoices/:invoiceUUID/transactions"
+	singleTransactionEndpoint = "transactions/:uuid"
+)
 
 // Transaction is either payment/refund on an invoice, for its full value.
 type Transaction struct {
@@ -24,4 +27,8 @@ func (api API) CreateTransaction(transaction *Transaction, invoiceUUID string) (
 	result := &Transaction{}
 	path := strings.Replace(transactionsEndpoint, ":invoiceUUID", invoiceUUID, 1)
 	return result, api.create(path, transaction, result)
+}
+
+func (api API) DeleteTransaction(transactionUUID string) error {
+	return api.delete(singleTransactionEndpoint, transactionUUID)
 }
