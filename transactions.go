@@ -29,6 +29,13 @@ func (api API) CreateTransaction(transaction *Transaction, invoiceUUID string) (
 	return result, api.create(path, transaction, result)
 }
 
+// UpdateTransaction Updates a transaction identified by its UUID.
+func (api API) UpdateTransaction(transaction *Transaction, transactionUUID string) (*Transaction, error) {
+	result := &Transaction{}
+	return result, api.update(transactionsEndpoint, transactionUUID, transaction, result)
+}
+
+// DeleteTransaction Deletes a specified transaction and all associated data.
 func (api API) DeleteTransaction(transactionUUID string) error {
 	return api.delete(singleTransactionEndpoint, transactionUUID)
 }

@@ -171,3 +171,8 @@ func (api API) UpdateLineItem(lineItem *LineItem, lineItemUUID string) (*LineIte
 	result := &LineItem{}
 	return result, api.update(singleLineItemEndpoint, lineItemUUID, lineItem, result)
 }
+
+// DeleteLineItem Delete an invoice line item identified by its UUID.
+func (api API) DeleteLineItem(lineItemUUID string) error {
+	return api.delete(singleLineItemEndpoint, lineItemUUID)
+}
